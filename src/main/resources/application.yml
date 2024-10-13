@@ -1,0 +1,14 @@
+spring.application.name: outbox-pattern-study
+
+
+debezium:
+  connector.class: io.debezium.connector.mysql.MySqlConnector
+  database.hostname: localhost
+  database.port: 3306
+  database.user: debezium
+  database.password: dbz
+  database.server.id: 184054
+  database.server.name: dbserver1
+  table.include.list: mydb.outbox
+  database.history.kafka.bootstrap.servers: localhost:9092
+  database.history.kafka.topic: schema-changes.mydb

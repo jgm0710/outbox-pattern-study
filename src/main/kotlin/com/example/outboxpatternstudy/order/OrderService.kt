@@ -6,6 +6,7 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
 import java.time.OffsetDateTime
+import java.util.UUID
 
 @Service
 class OrderService(
@@ -14,7 +15,7 @@ class OrderService(
 ) {
 
     @Transactional
-    fun createOrder(command: CreateOrderCommand) {
+    fun createOrder(command: CreateOrderCommand): UUID {
         val order: Order = command.createOrder()
 
         val objectMapper = jacksonObjectMapper()
