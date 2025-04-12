@@ -25,6 +25,18 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     runtimeOnly("org.postgresql:postgresql")
+
+    // Flyway 의존성
+    implementation("org.flywaydb:flyway-core")
+
+    // Kafka 관련 의존성
+    implementation("org.springframework.kafka:spring-kafka")
+
+    // Debezium 관련 의존성
+    implementation("io.debezium:debezium-api:2.5.0.Final")
+    implementation("io.debezium:debezium-embedded:2.5.0.Final")
+    implementation("io.debezium:debezium-connector-postgresql:2.5.0.Final")
+
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
