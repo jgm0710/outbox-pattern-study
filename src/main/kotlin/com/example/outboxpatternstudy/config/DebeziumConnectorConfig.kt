@@ -30,7 +30,9 @@ class DebeziumConnectorConfig(
     private val databaseServerName: String,
 
     @Value("\${debezium.topic.prefix}")
-    private val topicPrefix: String
+    private val topicPrefix: String,
+
+    private val domainEventPublisher: KafkaDomainEventPublisher
 ) {
     private val logger = LoggerFactory.getLogger(DebeziumConnectorConfig::class.java)
     private lateinit var debeziumEngine: DebeziumEngine<ChangeEvent<String,String>>
@@ -73,8 +75,21 @@ class DebeziumConnectorConfig(
         debeziumEngine = DebeziumEngine.create(Json::class.java)
             .using(props)
             .notifying { record ->
-                logger.info("Received change event: $record")
-                // 여기서 Kafka로 이벤트를 전송하거나 다른 처리를 수행할 수 있습니다.
+                try {
+                    if (record.value() != null) {
+                        logger.info("Received change event: $record")
+
+                        // 이벤트 데이터 추출
+                        val eventData = record.value()
+                        val destination = record.destination() // Kafka 토픽 이름
+                        val key = record.key() // 이벤트 키
+
+                        // 이벤트 발행
+                        publishEventToKafka(destination, key, eventData)
+                    }
+                } catch (e: Exception) {
+                    logger.error("Error processing change event: ${e.message}", e)
+                }
             }
             .build()
 
@@ -82,6 +97,20 @@ class DebeziumConnectorConfig(
         executor.execute(debeziumEngine)
 
         logger.info("Debezium connector started")
+    }
+
+    /**
+     * Kafka로 이벤트를 발행하는 메서드
+     */
+    private fun publishEventToKafka(topic: String, key: String, value: String) {
+        try {
+            logger.info("Publishing event to Kafka topic: $topic, key: $key")
+
+            // DomainEventPublisher를 통해 이벤트 발행
+            domainEventPublisher.publishEvent(topic, key, value)
+        } catch (e: Exception) {
+            logger.error("Failed to publish event to Kafka: ${e.message}", e)
+        }
     }
 
     @PreDestroy
