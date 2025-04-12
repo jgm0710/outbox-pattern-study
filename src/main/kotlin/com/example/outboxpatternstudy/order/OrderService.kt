@@ -31,5 +31,7 @@ class OrderService(
 
         orderRepository.save(order)
         outboxRepository.save(outbox)
+
+        return  order.id
     }
 }
