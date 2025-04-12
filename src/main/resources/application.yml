@@ -1,14 +1,32 @@
-spring.application.name: outbox-pattern-study
-
+spring:
+  application:
+    name: outbox-pattern-study
+  datasource:
+    url: jdbc:postgresql://localhost:5432/outbox_pattern_study
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: true
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: order-consumer
 
 debezium:
-  connector.class: io.debezium.connector.mysql.MySqlConnector
+  connector.class: io.debezium.connector.postgresql.PostgresConnector
   database.hostname: localhost
-  database.port: 3306
-  database.user: debezium
-  database.password: dbz
+  database.port: 5432
+  database.user: postgres
+  database.password: postgres
   database.server.id: 184054
-  database.server.name: dbserver1
-  table.include.list: mydb.outbox
-  database.history.kafka.bootstrap.servers: localhost:9092
-  database.history.kafka.topic: schema-changes.mydb
+  database.server.name: outbox-server
+  table.include.list: public.outbox
+  schema.include.list: public
+  topic.prefix: outbox-events

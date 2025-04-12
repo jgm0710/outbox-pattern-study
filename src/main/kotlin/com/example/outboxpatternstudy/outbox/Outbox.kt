@@ -26,4 +26,11 @@ class Outbox(
 
     @Column(name = "processed", nullable = false)
     private val processed: Boolean,
-)
+) {
+    // Getter 메서드 추가
+    fun getId(): String = id
+    fun getEventType(): String = eventType
+    fun getPayload(): String = payload
+    fun getCreatedAt(): OffsetDateTime = createdAt
+    fun isProcessed(): Boolean = processed
+}
