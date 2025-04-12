@@ -33,9 +33,9 @@ dependencies {
     implementation("org.springframework.kafka:spring-kafka")
 
     // Debezium 관련 의존성
-    implementation("io.debezium:debezium-api:2.5.0.Final")
-    implementation("io.debezium:debezium-embedded:2.5.0.Final")
-    implementation("io.debezium:debezium-connector-postgresql:2.5.0.Final")
+    implementation("io.debezium:debezium-api:3.1.0.Final")
+    implementation("io.debezium:debezium-embedded:3.1.0.Final")
+    implementation("io.debezium:debezium-connector-postgres:3.1.0.Final")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
