@@ -28,6 +28,7 @@ dependencies {
 
     // Flyway 의존성
     implementation("org.flywaydb:flyway-core")
+    implementation("org.flywaydb:flyway-database-postgresql:10.10.0")
 
     // Kafka 관련 의존성
     implementation("org.springframework.kafka:spring-kafka")
