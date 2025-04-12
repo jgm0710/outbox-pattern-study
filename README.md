@@ -44,4 +44,4 @@ curl -X POST http://localhost:8080/v1/orders \
 
 ## 모니터링
 
-- Kafka UI: http://localhost:8080
+- Kafka UI: http://localhost:8081

@@ -2,7 +2,7 @@ spring:
   application:
     name: outbox-pattern-study
   datasource:
-    url: jdbc:postgresql://localhost:5432/outbox_pattern_study
+    url: jdbc:postgresql://localhost:5433/outbox_pattern_study
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver
@@ -15,14 +15,14 @@ spring:
         format_sql: true
     show-sql: true
   kafka:
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: localhost:9093
     consumer:
       group-id: order-consumer
 
 debezium:
   connector.class: io.debezium.connector.postgresql.PostgresConnector
   database.hostname: localhost
-  database.port: 5432
+  database.port: 5433
   database.user: postgres
   database.password: postgres
   database.server.id: 184054
