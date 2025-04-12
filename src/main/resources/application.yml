@@ -16,8 +16,6 @@ spring:
     show-sql: true
   kafka:
     bootstrap-servers: localhost:9093
-    consumer:
-      group-id: order-consumer
 
 debezium:
   connector.class: io.debezium.connector.postgresql.PostgresConnector

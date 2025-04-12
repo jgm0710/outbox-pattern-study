@@ -1,7 +1,6 @@
 package com.example.outboxpatternstudy.config
 
 import org.apache.kafka.clients.admin.AdminClientConfig
-import org.apache.kafka.clients.admin.NewTopic
 import org.apache.kafka.clients.producer.ProducerConfig
 import org.apache.kafka.common.serialization.StringSerializer
 import org.springframework.beans.factory.annotation.Value
@@ -27,10 +26,10 @@ class KafkaConfig(
         return KafkaAdmin(configs)
     }
     
-    @Bean
-    fun orderTopic(): NewTopic {
-        return NewTopic("order-events", 1, 1.toShort())
-    }
+//    @Bean
+//    fun orderTopic(): NewTopic {
+//        return NewTopic("order-events", 1, 1.toShort())
+//    }
     
     @Bean
     fun producerFactory(): ProducerFactory<String, Any> {

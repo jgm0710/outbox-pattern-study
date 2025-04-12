@@ -9,6 +9,8 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: outbox_pattern_study
+      POSTGRES_INITDB_ARGS: "--wal_level=logical"
+    command: ["postgres", "-c", "wal_level=logical"]
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
@@ -35,6 +37,16 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      # 토픽 자동 생성 활성화
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      # 컨슈머 그룹 초기 리밸런싱 지연 시간 (밀리초)
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: "100"
+      # 오프셋 토픽의 파티션 수
+      KAFKA_OFFSETS_TOPIC_NUM_PARTITIONS: "1"
+      # 토픽 삭제 활성화
+      KAFKA_DELETE_TOPIC_ENABLE: "true"
+      # 기본 토픽 파티션 수
+      KAFKA_NUM_PARTITIONS: "1"
 
   kafka-ui:
     image: provectuslabs/kafka-ui:latest
