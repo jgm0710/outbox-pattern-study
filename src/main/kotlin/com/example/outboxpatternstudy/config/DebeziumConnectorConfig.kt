@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import java.util.Properties
 import java.util.concurrent.Executors
+import org.springframework.core.env.Environment
 
 @Component
 class DebeziumConnectorConfig(
@@ -32,7 +33,12 @@ class DebeziumConnectorConfig(
     @Value("\${debezium.topic.prefix}")
     private val topicPrefix: String,
 
-    private val domainEventPublisher: KafkaDomainEventPublisher
+    @Value("\${spring.kafka.bootstrap-servers}")
+    private val kafkaBootstrapServers: String,
+
+    private val domainEventPublisher: KafkaDomainEventPublisher,
+
+    private val environment: Environment
 ) {
     private val logger = LoggerFactory.getLogger(DebeziumConnectorConfig::class.java)
     private lateinit var debeziumEngine: DebeziumEngine<ChangeEvent<String,String>>
@@ -48,6 +54,9 @@ class DebeziumConnectorConfig(
             setProperty("offset.storage.file.filename", "./offsets.dat")
             setProperty("offset.flush.interval.ms", "60000")
             setProperty("name", databaseServerName)
+
+            // Kafka 설정
+            setProperty("bootstrap.servers", kafkaBootstrapServers)
 
             // 데이터베이스 연결 설정
             setProperty("database.hostname", databaseHost)
@@ -69,7 +78,13 @@ class DebeziumConnectorConfig(
             setProperty("transforms.outbox.table.field.event.id", "id")
             setProperty("transforms.outbox.table.field.event.key", "id")
             setProperty("transforms.outbox.table.field.event.payload", "payload")
-            setProperty("transforms.outbox.table.field.event.timestamp", "created_at")
+            // 타임스킬프 필드 사용하지 않음
+            // setProperty("transforms.outbox.table.field.event.timestamp", "created_at")
+
+            // 오류 처리 설정
+            setProperty("errors.max.retries", "-1")
+            setProperty("errors.retry.delay.initial.ms", "300")
+            setProperty("errors.retry.delay.max.ms", "10000")
         }
 
         debeziumEngine = DebeziumEngine.create(Json::class.java)

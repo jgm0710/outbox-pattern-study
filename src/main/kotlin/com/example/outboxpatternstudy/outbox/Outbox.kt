@@ -7,6 +7,7 @@ import jakarta.persistence.Table
 import org.hibernate.type.SqlTypes
 import org.hibernate.annotations.JdbcTypeCode
 import java.time.OffsetDateTime
+import java.time.Instant
 
 
 @Entity
@@ -25,7 +26,7 @@ class Outbox(
     private val payload: String,
 
     @Column(name = "created_at", nullable = false)
-    private val createdAt: OffsetDateTime,
+    private val createdAt: Long,
 
     @Column(name = "processed", nullable = false)
     private val processed: Boolean,
@@ -34,6 +35,6 @@ class Outbox(
     fun getId(): String = id
     fun getEventType(): String = eventType
     fun getPayload(): String = payload
-    fun getCreatedAt(): OffsetDateTime = createdAt
+    fun getCreatedAt(): Long = createdAt
     fun isProcessed(): Boolean = processed
 }

@@ -6,7 +6,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
-import java.time.OffsetDateTime
+import java.time.Instant
 import java.util.UUID
 
 @Service
@@ -27,7 +27,7 @@ class OrderService(
             id = order.id.toString(),
             eventType = "OrderCreated",
             payload = objectMapper.writeValueAsString(order),
-            createdAt = OffsetDateTime.now(),
+            createdAt = Instant.now().toEpochMilli(),
             processed = false
         )
 
