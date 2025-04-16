@@ -4,6 +4,8 @@ import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
 import jakarta.persistence.Table
+import org.hibernate.type.SqlTypes
+import org.hibernate.annotations.JdbcTypeCode
 import java.time.OffsetDateTime
 
 
@@ -19,6 +21,7 @@ class Outbox(
     private val eventType: String,
 
     @Column(name = "payload", columnDefinition = "jsonb", nullable = false)
+    @JdbcTypeCode(SqlTypes.JSON)
     private val payload: String,
 
     @Column(name = "created_at", nullable = false)

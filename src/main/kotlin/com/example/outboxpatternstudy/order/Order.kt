@@ -10,7 +10,7 @@ import java.time.OffsetDateTime
 import java.util.UUID
 
 @Entity
-@Table(name = "order")
+@Table(name = """"order"""")
 class Order(
     @Id
     @Column(name = "id")

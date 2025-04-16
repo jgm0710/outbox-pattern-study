@@ -2,6 +2,7 @@ package com.example.outboxpatternstudy.order
 
 import com.example.outboxpatternstudy.outbox.Outbox
 import com.example.outboxpatternstudy.outbox.OutboxRepository
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
@@ -19,6 +20,7 @@ class OrderService(
         val order: Order = command.createOrder()
 
         val objectMapper = jacksonObjectMapper()
+            .registerModule(JavaTimeModule())
 
 
         val outbox = Outbox(
